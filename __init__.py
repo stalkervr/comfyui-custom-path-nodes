@@ -1,30 +1,53 @@
-from .path_pipe_nodes import (
-    PipePathReroute,
-    PipeFromConcatPath,
-    PipeToConcatPath
+from .path import (
+    SavePath,
+    PathPipeReroute,
+    PathPipeIn,
+    PathPipeOut
 )
 
-from .concat_path import ConcatPath
-
-from .image_grid_cropper import (
+from .image_process import (
     ImageGridCropper,
     BatchImageCrop
 )
 
+from .context import (
+    ContextPipeIn,
+    ContextPipeOut,
+    ContextPipeReroute
+)
+
+from .sting_process import (
+    PromptPartJoin,
+    PromptPartConcatenation,
+    StringConcatenation
+)
+
 NODE_CLASS_MAPPINGS = {
-    "PipePathReroute": PipePathReroute,
-    "PipeFromConcatPath": PipeFromConcatPath,
-    "PipeToConcatPath": PipeToConcatPath,
-    "ConcatPath": ConcatPath,
+    "PathPipeReroute": PathPipeReroute,
+    "PathPipeOut": PathPipeOut,
+    "PathPipeIn": PathPipeIn,
+    "SavePath": SavePath,
     "ImageGridCropper": ImageGridCropper,
     "BatchImageCrop": BatchImageCrop,
+    "ContextPipeIn": ContextPipeIn,
+    "ContextPipeOut": ContextPipeOut,
+    "ContextPipeReroute": ContextPipeReroute,
+    "PromptPartJoin": PromptPartJoin,
+    "PromptPartConcatenation": PromptPartConcatenation,
+    "StringConcatenation": StringConcatenation,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "PipePathReroute": "Pipe Path Reroute",
-    "PipeFromConcatPath": "Pipe From Path Pipe",
-    "PipeToConcatPath": "Pipe To Path Pipe",
-    "ConcatPath": "Concat Path",
+    "PathPipeReroute": "Path Pipe Reroute",
+    "PathPipeOut": "Path Pipe Out",
+    "PathPipeIn": "Path Pipe In",
+    "SavePath": "Save Path",
     "ImageGridCropper": "Image Grid Cropper",
     "BatchImageCrop": "Batch Image Crop",
+    "ContextPipeIn": "Context Pipe In",
+    "ContextPipeOut": "Context Pipe Out",
+    "ContextPipeReroute": "Context Pipe Reroute",
+    "PromptPartJoin": "Prompt Part Join",
+    "PromptPartConcatenation": "Prompt Part Concatenation",
+    "StringConcatenation": "String Concatenation",
 }

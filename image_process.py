@@ -1,9 +1,7 @@
 import os
 import torch
 import numpy as np
-from PIL import Image
 import torch.nn.functional as F
-from server import PromptServer
 
 class ImageGridCropper:
     @classmethod
@@ -24,7 +22,7 @@ class ImageGridCropper:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("images",)
     FUNCTION = "crop_grid"
-    CATEGORY = "Stalkervr/Path"
+    CATEGORY = "Stalkervr/Images"
 
     def crop_grid(
         self,
@@ -106,7 +104,7 @@ class BatchImageCrop:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("cropped_images",)
     FUNCTION = "crop_batch"
-    CATEGORY = "Stalkervr/Path"
+    CATEGORY = "Stalkervr/Images"
 
     def crop_batch(
         self,
@@ -157,13 +155,3 @@ class BatchImageCrop:
                 pil_img.save(f"{save_path}/{filename}_{idx}.png")
 
         return (cropped_images,)
-    
-NODE_CLASS_MAPPINGS = {
-    "ImageGridCropper": ImageGridCropper,
-    "BatchImageCrop": BatchImageCrop,
-}
-
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageGridCropper": "Image Grid Cropper",
-    "BatchImageCrop": "Batch Image Crop",
-}
