@@ -1,29 +1,18 @@
 class PromptPartJoin:
     """Node to combine 4 multiline text fields into a single STRING output."""
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "cam_view": ("STRING", {
-                    "multiline": True,
-                    "default": "top view, pov, from above, dutch angle",
-                }),
-                "model_sys_teg": ("STRING", {
-                    "multiline": True,
-                    "default": "score_9, score_8_up, score_7_up",
-                }),
-                "style_description": ("STRING", {
-                    "multiline": True,
-                    "default": "",
-                }),
-                "prompt": ("STRING", {
-                    "multiline": True,
-                    "default": "",
-                }),
+                "cam_view": ("STRING", {"multiline": True, "default": "top view, pov, from above, dutch angle"}),
+                "model_sys_teg": ("STRING", {"multiline": True, "default": "score_9, score_8_up, score_7_up"}),
+                "style_description": ("STRING", {"multiline": True, "default": ""}),
+                "prompt": ("STRING", {"multiline": True, "default": ""}),
             },
             "optional": {
-                "separator": ("STRING", {"default": ",,"}),
-                "newline": ("BOOLEAN", {"default": True}),
+                "separator": ("STRING", {"default": ", "}),
+                "newline": ("BOOLEAN", {"default": False}),
             }
         }
 
@@ -32,11 +21,17 @@ class PromptPartJoin:
     FUNCTION = "combine_texts"
     CATEGORY = "Stalkervr/Text"
 
-    def combine_texts(self, cam_view, model_sys_teg, style_description, prompt, separator="\n\n", newline=False):
+    def combine_texts(self, cam_view, model_sys_teg, style_description, prompt, separator=", ", newline=False):
+        # Создаем список строк для объединения
+        parts = [cam_view, model_sys_teg, style_description, prompt]
+
+        # Если включен переключатель новой строки, добавляем перенос строки после разделителя
         if newline:
-            combined = "\n\n".join([cam_view, model_sys_teg, style_description, prompt])
-        else:
-            combined = separator.join([cam_view, model_sys_teg, style_description, prompt])
+            separator += "\n\n"
+
+        # Объединяем строки с использованием разделителя
+        combined = separator.join(parts)
+
         return (combined,)
 
 

@@ -1,3 +1,7 @@
+import os
+
+WEB_DIRECTORY = os.path.join(os.path.dirname(__file__), "web")
+
 from .path import (
     SavePath,
     PathPipeReroute,
@@ -22,6 +26,10 @@ from .sting_process import (
     StringConcatenation
 )
 
+from .data_file_loader import (
+    DataFileLoader
+)
+
 NODE_CLASS_MAPPINGS = {
     "PathPipeReroute": PathPipeReroute,
     "PathPipeOut": PathPipeOut,
@@ -35,6 +43,7 @@ NODE_CLASS_MAPPINGS = {
     "PromptPartJoin": PromptPartJoin,
     "PromptPartConcatenation": PromptPartConcatenation,
     "StringConcatenation": StringConcatenation,
+    "DataFileLoader": DataFileLoader,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -50,4 +59,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "PromptPartJoin": "Prompt Part Join",
     "PromptPartConcatenation": "Prompt Part Concatenation",
     "StringConcatenation": "String Concatenation",
+    "DataFileSelector": "Data File Selector",
+    "DataFileLoader": "Data File Loader",
 }
+
+__all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']
