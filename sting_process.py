@@ -1,14 +1,16 @@
 class PromptPartJoin:
-    """Node to combine 4 multiline text fields into a single STRING output."""
+    """Node to combine 6 multiline text fields into a single STRING output."""
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "cam_view": ("STRING", {"multiline": True, "default": "top view, pov, from above, dutch angle"}),
-                "model_sys_teg": ("STRING", {"multiline": True, "default": "score_9, score_8_up, score_7_up"}),
-                "style_description": ("STRING", {"multiline": True, "default": ""}),
-                "prompt": ("STRING", {"multiline": True, "default": ""}),
+                "camera_shot": ("STRING", {"multiline": True, "default": "CAMERA_SHOT", "label": "CAMERA_SHOT"}),
+                "main_character": ("STRING", {"multiline": True, "default": "MAIN_CHARACTER", "label": "MAIN_CHARACTER"}),
+                "pose_action": ("STRING", {"multiline": True, "default": "POSE_ACTION", "label": "POSE_ACTION"}),
+                "clovers_style": ("STRING", {"multiline": True, "default": "CLOVERS_STYLE", "label": "CLOVERS_STYLE"}),
+                "advance_character": ("STRING", {"multiline": True, "default": "ADVANCE_CHARACTER", "label": "ADVANCE_CHARACTER"}),
+                "env_photo_style": ("STRING", {"multiline": True, "default": "ENV_PHOTO_STYLE", "label": "ENV_PHOTO_STYLE"}),
             },
             "optional": {
                 "separator": ("STRING", {"default": ", "}),
@@ -17,21 +19,34 @@ class PromptPartJoin:
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("STRING",)
+    RETURN_NAMES = ("POSITIVE",)
     FUNCTION = "combine_texts"
     CATEGORY = "Stalkervr/Text"
 
-    def combine_texts(self, cam_view, model_sys_teg, style_description, prompt, separator=", ", newline=False):
-        # Создаем список строк для объединения
-        parts = [cam_view, model_sys_teg, style_description, prompt]
+    def combine_texts(
+        self,
+        camera_shot,
+        main_character,
+        pose_action,
+        clovers_style,
+        advance_character,
+        env_photo_style,
+        separator=", ",
+        newline=False
+    ):
+        parts = [
+            camera_shot,
+            main_character,
+            pose_action,
+            clovers_style,
+            advance_character,
+            env_photo_style,
+        ]
 
-        # Если включен переключатель новой строки, добавляем перенос строки после разделителя
         if newline:
             separator += "\n\n"
 
-        # Объединяем строки с использованием разделителя
         combined = separator.join(parts)
-
         return (combined,)
 
 
