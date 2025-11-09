@@ -23,11 +23,25 @@ from .context import (
 from .sting_process import (
     PromptPartJoin,
     PromptPartConcatenation,
-    StringConcatenation
+    StringConcatenation,
+    TextBlockProcessor,
+    TextWrapper,
+    ListToString,
+    StringCollector
 )
 
 from .data_file_loader import (
     DataFileLoader
+)
+
+from .json_process import (
+    JsonFieldValueExtractor
+)
+
+from .batch_process import (
+    LoopAny,
+    ListItemExtractor,
+    AnyCollector
 )
 
 NODE_CLASS_MAPPINGS = {
@@ -44,6 +58,14 @@ NODE_CLASS_MAPPINGS = {
     "PromptPartConcatenation": PromptPartConcatenation,
     "StringConcatenation": StringConcatenation,
     "DataFileLoader": DataFileLoader,
+    "TextBlockProcessor": TextBlockProcessor,
+    "JsonFieldValueExtractor": JsonFieldValueExtractor,
+    "LoopAny": LoopAny,
+    "ListItemExtractor": ListItemExtractor,
+    "TextWrapper": TextWrapper,
+    "ListToString": ListToString,
+    "StringCollector": StringCollector,
+    "AnyCollector": AnyCollector,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -61,6 +83,14 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "StringConcatenation": "String Concatenation",
     "DataFileSelector": "Data File Selector",
     "DataFileLoader": "Data File Loader",
+    "TextBlockProcessor": "Text Block Processor",
+    "JsonFieldValueExtractor": "JSON Field Value Extractor",
+    "LoopAny": "Loop Any",
+    "ListItemExtractor": "List Item Extractor",
+    "TextWrapper": "Text Wrapper",
+    "ListToString": "List To String",
+    "StringCollector": "String Collector",
+    "AnyCollector": "Any Collector",
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']
