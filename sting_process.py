@@ -158,14 +158,10 @@ class TextWrapper:
     CATEGORY = "Stalkervr/Text"
 
     def wrap_text(self, prefix, input_text, suffix):
-        # Обрезаем пробелы в начале и конце каждой строки
         prefix = prefix.strip()
         input_text = input_text.strip()
         suffix = suffix.strip()
-
-        # Объединяем с пробелами
         parts = [prefix, input_text, suffix]
-        # Убираем пустые части
         combined = " ".join([p for p in parts if p])
 
         return (combined,)
@@ -190,7 +186,6 @@ class ListToString:
     CATEGORY = "Stalkervr/Text"
 
     def join_list(self, string_list, separator):
-        # Убедимся, что каждый элемент списка строка
         safe_list = [str(item) for item in string_list]
         combined = separator.join(safe_list)
         return (combined,)
@@ -237,7 +232,6 @@ class StringCollector:
                     values.append(str(val).strip())
                     pass
 
-        # Optional: store in workflow UI
         if extra_pnginfo and isinstance(extra_pnginfo, list) and extra_pnginfo:
             if isinstance(extra_pnginfo[0], dict) and "workflow" in extra_pnginfo[0]:
                 workflow = extra_pnginfo[0]["workflow"]
@@ -245,6 +239,4 @@ class StringCollector:
                 if node:
                     node["widgets_values"] = [values]
 
-        # Always return **one list** of all collected values
         return {"ui": {"text": values}, "result": (values,)}
-

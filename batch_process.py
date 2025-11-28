@@ -86,22 +86,16 @@ class ListItemExtractor:
     CATEGORY = "Stalkervr/Control"
 
     def extract_item(self, input, index):
-        print(f"DEBUG: raw batch input: {input} type: {type(input)}")
         if not isinstance(input, list):
-            print("DEBUG: input is not a list, converting to list")
             input = list(input) if input is not None else []
 
         count = len(input)
-        print(f"DEBUG: batch count: {count}")
 
-        # безопасный выбор элемента
         if 0 <= index < count:
             item = input[index]
         else:
-            print(f"DEBUG: index {index} out of range, returning None")
             item = None
 
-        print(f"DEBUG: selected item: {item} index: {index}")
         return count, item
 
 
@@ -143,7 +137,6 @@ class AnyCollector:
                 except Exception:
                     collected.append(val)
 
-        # Optional: store in workflow UI
         if extra_pnginfo and isinstance(extra_pnginfo, list) and extra_pnginfo:
             if isinstance(extra_pnginfo[0], dict) and "workflow" in extra_pnginfo[0]:
                 workflow = extra_pnginfo[0]["workflow"]

@@ -11,7 +11,9 @@ from .path import (
 
 from .image_process import (
     ImageGridCropper,
-    BatchImageCrop
+    BatchImageCrop,
+    ImageAspectFixer,
+    AutoAspectRatioAdjustFixer
 )
 
 from .context import (
@@ -35,7 +37,9 @@ from .data_file_loader import (
 )
 
 from .json_process import (
-    JsonFieldValueExtractor
+    JsonFieldValueExtractor,
+    JsonFieldRemover,
+    JsonFieldReplaceAdvanced
 )
 
 from .batch_process import (
@@ -60,12 +64,16 @@ NODE_CLASS_MAPPINGS = {
     "DataFileLoader": DataFileLoader,
     "TextBlockProcessor": TextBlockProcessor,
     "JsonFieldValueExtractor": JsonFieldValueExtractor,
+    "JsonFieldRemover": JsonFieldRemover,
+    "JsonFieldReplaceAdvanced": JsonFieldReplaceAdvanced,
     "LoopAny": LoopAny,
     "ListItemExtractor": ListItemExtractor,
     "TextWrapper": TextWrapper,
     "ListToString": ListToString,
     "StringCollector": StringCollector,
     "AnyCollector": AnyCollector,
+    "ImageAspectFixer": ImageAspectFixer,
+    "AutoAspectRatioAdjustFixer": AutoAspectRatioAdjustFixer,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -85,12 +93,16 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "DataFileLoader": "Data File Loader",
     "TextBlockProcessor": "Text Block Processor",
     "JsonFieldValueExtractor": "JSON Field Value Extractor",
+    "JsonFieldRemover": "JSON Field Remover",
+    "JsonFieldReplaceAdvanced": "JSON Field Add & Replace",
     "LoopAny": "Loop Any",
     "ListItemExtractor": "List Item Extractor",
     "TextWrapper": "Text Wrapper",
     "ListToString": "List To String",
     "StringCollector": "String Collector",
     "AnyCollector": "Any Collector",
+    "ImageAspectFixer": "Aspect Ratio Fixer (16:9 / 9:16)",
+    "AutoAspectRatioAdjustFixer": "Aspect Ratio Fixer",
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', 'WEB_DIRECTORY']

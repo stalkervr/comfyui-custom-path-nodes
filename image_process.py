@@ -2,6 +2,7 @@ import os
 import torch
 import numpy as np
 import torch.nn.functional as F
+from PIL import Image
 
 class ImageGridCropper:
     @classmethod
@@ -155,3 +156,112 @@ class BatchImageCrop:
                 pil_img.save(f"{save_path}/{filename}_{idx}.png")
 
         return (cropped_images,)
+
+
+
+class ImageAspectFixer:
+    """
+    Detect orientation of input IMAGE (tensor)
+    and return width/height adjusted to 16:9 or 9:16 proportions.
+    Also returns original input image (source_image).
+    """
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+            }
+        }
+
+    # width, height, original image
+    RETURN_TYPES = ("IMAGE", "INT", "INT")
+    RETURN_NAMES = ("source_image", "width", "height")
+    FUNCTION = "fix_aspect"
+    CATEGORY = "Stalkervr/Images"
+
+    def fix_aspect(self, image: torch.Tensor):
+        # image tensor: [B, H, W, C]
+        _, h, w, _ = image.shape
+
+        # Landscape -> 16:9
+        if w >= h:
+            new_w = w
+            new_h = int(w * 9 / 16)
+
+        # Portrait -> 9:16
+        else:
+            new_h = h
+            new_w = int(h * 9 / 16)
+
+        new_w = max(1, int(new_w))
+        new_h = max(1, int(new_h))
+
+        return (image, new_w, new_h)
+
+class AutoAspectRatioAdjustFixer:
+    """
+    Auto aspect ratio calculator based on the same principles
+    as ImageAspectFixer (batch aware, tensor-safe).
+    """
+
+    ASPECT_CHOICES = [
+        "21:9",
+        "16:9",
+        "4:3",
+        "custom"
+    ]
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+                "aspect_ratio": (cls.ASPECT_CHOICES, {"default": "16:9"}),
+                "custom_x": ("INT", {"default": 1, "min": 1}),
+                "custom_y": ("INT", {"default": 1, "min": 1}),
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE", "INT", "INT")
+    RETURN_NAMES = ("source_image", "target_width", "target_height")
+
+    FUNCTION = "calculate"
+    CATEGORY = "Stalkervr/Images"
+
+    def parse_ratio(self, ratio_str, custom_x, custom_y):
+        if ratio_str != "custom":
+            x, y = ratio_str.split(":")
+            return float(x), float(y)
+        return float(custom_x), float(custom_y)
+
+    def calculate(self, image, aspect_ratio, custom_x, custom_y):
+        """
+        image: torch.Tensor [B, H, W, C]
+        """
+        if not isinstance(image, torch.Tensor):
+            raise ValueError("Expected IMAGE tensor")
+
+        if image.dim() != 4:
+            raise ValueError("IMAGE must be 4D: [B, H, W, C]")
+
+        _, h, w, _ = image.shape
+
+        is_vertical = h > w
+
+        x, y = self.parse_ratio(aspect_ratio, custom_x, custom_y)
+
+        if is_vertical:
+            x, y = y, x
+
+        target_ratio = x / y
+        input_ratio = w / h
+
+        if input_ratio > target_ratio:
+            target_height = h
+            target_width = int(h * target_ratio)
+        else:
+            target_width = w
+            target_height = int(w / target_ratio)
+
+        return (image, target_width, target_height)

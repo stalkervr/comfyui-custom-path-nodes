@@ -119,4 +119,3 @@ app.registerExtension({
     };
   },
 });
-
